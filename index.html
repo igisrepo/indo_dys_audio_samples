@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ============================================================
+     EDIT ME: this is the browser tab title
+============================================================= -->
+<title>Audio Comparison — Sample Listening Test</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    /* ---------- BRIGHT PALETTE — edit these six values to retheme the whole page ---------- */
+    --bg:        #FFFBEF;   /* page background, warm bright white */
+    --ink:       #191933;   /* main text, deep near-navy */
+    --coral:     #FF5A5F;   /* accent 1 — Group A */
+    --violet:    #6C5CE7;   /* accent 2 — Group B */
+    --teal:      #00C2A8;   /* accent 3 — Group C */
+    --yellow:    #FFD23F;   /* highlight / title underline */
+
+    --paper:     #FFFFFF;
+    --line:      rgba(25,25,51,0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+  }
+
+  h1, h2, .eyebrow{ font-family:'Space Grotesk', sans-serif; }
+
+  /* ---------- Hero / title ---------- */
+  header.hero{
+    max-width:1180px;
+    margin:0 auto;
+    padding:72px 24px 40px;
+    text-align:left;
+  }
+
+  header.hero h1{
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    font-weight:700;
+    margin:0 0 18px;
+    line-height:1.05;
+  }
+
+  header.hero h1 span{
+    background:linear-gradient(transparent 62%, var(--yellow) 62%);
+    padding:0 2px;
+  }
+
+  header.hero p{
+    max-width:60ch;
+    font-size:1.08rem;
+    color:rgba(25,25,51,0.75);
+    margin:0;
+  }
+
+  /* decorative waveform bars, reused as a small motif per block */
+  .bars{
+    display:flex;
+    align-items:flex-end;
+    gap:4px;
+    height:26px;
+    margin-right:10px;
+  }
+  .bars span{
+    display:block;
+    width:4px;
+    border-radius:2px;
+    background:currentColor;
+  }
+
+  /* ---------- Blocks ---------- */
+  main{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 24px 100px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    align-items:start;
+    gap:24px;
+  }
+
+  @media (max-width:900px){
+    main{ grid-template-columns:1fr; max-width:820px; }
+  }
+
+  section.block{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:32px 30px 26px;
+    position:relative;
+    overflow:hidden;
+  }
+
+  section.block::before{
+    /* colored edge stripe, color set per block below */
+    content:"";
+    position:absolute;
+    top:0; left:0; bottom:0;
+    width:6px;
+    background:var(--accent);
+  }
+
+  .block-a{ --accent:var(--coral); }
+  .block-b{ --accent:var(--violet); }
+  .block-c{ --accent:var(--teal); }
+
+  .block .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    color:var(--accent);
+    font-weight:700;
+    font-size:0.8rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .block .eyebrow .bars{ color:var(--accent); }
+
+  section.block h2{
+    font-size:1.5rem;
+    font-weight:700;
+    margin:0 0 12px;
+  }
+
+  section.block .explanation{
+    color:rgba(25,25,51,0.75);
+    font-size:0.98rem;
+    max-width:65ch;
+    margin:0 0 26px;
+  }
+
+  /* ---------- Audio rows ---------- */
+  .samples{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .sample-row{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    padding:14px 14px 16px;
+    border-radius:12px;
+    background:var(--bg);
+    border:1px solid var(--line);
+  }
+
+  .sample-row .label{
+    font-weight:600;
+    font-size:0.92rem;
+    color:var(--ink);
+  }
+
+  .sample-row audio{
+    width:100%;
+    height:36px;
+    accent-color:var(--accent);
+  }
+
+  .sample-row .transcription{
+    margin:0;
+    padding-top:2px;
+    font-size:0.88rem;
+    line-height:1.5;
+    color:rgba(25,25,51,0.7);
+    border-top:1px dashed var(--line);
+    padding-top:8px;
+  }
+
+  .sample-row .transcription .transcription-label{
+    font-weight:600;
+    color:var(--ink);
+    margin-right:4px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 24px 60px;
+    color:rgba(25,25,51,0.55);
+    font-size:0.85rem;
+  }
+
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HERO — edit the page title and the intro paragraph
+============================================================= -->
+<header class="hero">
+  <h1><span>Generated Indonesian Dysarthric Audio Comparison</span> Listening Samples</h1>
+  <!-- EDIT ME: one or two sentences describing what's being compared and why -->
+  <p>
+   This page presents a direct comparison of three audio samples: Normal Audio, FreeVC Audio, and DysAugVC Audio. Users can play each sample to compare their speech characteristics and audio quality.
+  </p>
+</header>
+
+<main>
+
+  <!-- ============================================================
+       BLOCK A (coral) — edit title, explanation, and the 5 samples
+  ============================================================= -->
+  <section class="block block-a">
+    <div class="eyebrow">
+      <span class="bars"><span style="height:8px"></span><span style="height:16px"></span><span style="height:11px"></span><span style="height:20px"></span></span>
+      
+    </div>
+    <!-- EDIT ME: block title -->
+    <h2>Normal audio</h2>
+    <!-- EDIT ME: explanation text for this block -->
+    <p class="explanation">
+      Original audio collected from Indonesian Common Voice 25.
+    </p>
+
+    <div class="samples">
+      <!-- Repeat this row for each of the 3 samples. -->
+      <!-- src: path to your audio file inside the /audio folder in this repo. -->
+      <!-- Replace the transcription text with what's spoken in that sample, or delete the <p> if not needed. -->
+      <div class="sample-row">
+        <span class="label">Sample 1</span>
+        <audio controls src="audio/n1.mp3"></audio>
+        <p class="transcription"><span class="transcription-label">Transcript:</span>kakak perempuan saya akan menikah pada musim semi tahun depan. </p>
+      </div>
+      <div class="sample-row">
+        <span class="label">Sample 2</span>
+        <audio controls src="audio/n2.mp3"></audio>
+        <p class="transcription"><span class="transcription-label">Transcript:</span>mau kamu suka atau tidak, kamu harus tetap melakukannya. </p>
+      </div>
+      <div class="sample-row">
+        <span class="label">Sample 3</span>
+        <audio controls src="audio/n3.mp3"></audio>
+        <p class="transcription"><span class="transcription-label">Transcript:</span>kecintaan terhadap seni telah tertanam pada tom sejak dini. </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BLOCK B (violet) — edit title, explanation, and the 5 samples
+  ============================================================= -->
+  <section class="block block-b">
+    <div class="eyebrow">
+      <span class="bars"><span style="height:14px"></span><span style="height:9px"></span><span style="height:19px"></span><span style="height:12px"></span></span>
+      
+    </div>
+    <h2>FreeVC Audio</h2>
+    <p class="explanation">
+      Generated audio from augmentation and FreeVC conversion.
+    </p>
+
+    <div class="samples">
+      <div class="sample-row">
+        <span class="label">Sample 1</span>
+        <audio controls src="audio/f1.wav"></audio>
+        <p class="transcription"><span class="transcription-label">Transcript:</span>kakak perempuan saya akan menikah pada musim semi tahun depan. </p>
+      </div>
+      <div class="sample-row">
+        <span class="label">Sample 2</span>
+        <audio controls src="audio/f2.wav"></audio>
+        <p class="transcription"><span class="transcription-label">Transcript:</span>mau kamu suka atau tidak, kamu harus tetap melakukannya. </p>
+      </div>
+      <div class="sample-row">
+        <span class="label">Sample 3</span>
+        <audio controls src="audio/f3.wav"></audio>
+        <p class="transcription"><span class="transcription-label">Transcript:</span>kecintaan terhadap seni telah tertanam pada tom sejak dini. </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BLOCK C (teal) — edit title, explanation, and the 5 samples
+  ============================================================= -->
+  <section class="block block-c">
+    <div class="eyebrow">
+      <span class="bars"><span style="height:18px"></span><span style="height:10px"></span><span style="height:15px"></span><span style="height:8px"></span></span>
+      
+    </div>
+    <h2>DysAugVC Audio</h2>
+    <p class="explanation">
+      Generated audio from augmentation and DysAugVC conversion.
+    </p>
+
+    <div class="samples">
+      <div class="sample-row">
+        <span class="label">Sample 1</span>
+        <audio controls src="audio/d1.wav"></audio>
+        <p class="transcription"><span class="transcription-label">Transcript:</span>kakak perempuan saya akan menikah pada musim semi tahun depan. </p>
+      </div>
+      <div class="sample-row">
+        <span class="label">Sample 2</span>
+        <audio controls src="audio/d2.wav"></audio>
+        <p class="transcription"><span class="transcription-label">Transcript:</span>mau kamu suka atau tidak, kamu harus tetap melakukannya. </p>
+      </div>
+      <div class="sample-row">
+        <span class="label">Sample 3</span>
+        <audio controls src="audio/d3.wav"></audio>
+        <p class="transcription"><span class="transcription-label">Transcript:</span>kecintaan terhadap seni telah tertanam pada tom sejak dini. </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <!-- EDIT ME or delete this line -->
+  Built with a simple static page — hosted on GitHub Pages.
+</footer>
+
+</body>
+</html>
+<!-- ============================================================
+AUDIO FILES — HOW TO ADD YOURS
+
+The audio now plays directly from files in this repo, not Google
+Drive, so there's nothing to convert or troubleshoot.
+
+1. In your repo (next to this index.html), create a folder named
+   "audio".
+2. Put your 9 audio files in it, named to match the src="..." paths
+   above: a1.mp3, a2.mp3, a3.mp3, b1.mp3, b2.mp3, b3.mp3, c1.mp3,
+   c2.mp3, c3.mp3 (or rename the files AND the src="audio/..."
+   paths above to whatever you prefer — they just need to match).
+3. Commit and push both index.html and the audio/ folder. GitHub
+   Pages will serve the files together and playback will work with
+   no extra setup.
+
+Your repo structure should look like:
+  your-repo/
+    index.html
+    audio/
+      a1.mp3
+      a2.mp3
+      a3.mp3
+      b1.mp3
+      b2.mp3
+      b3.mp3
+      c1.mp3
+      c2.mp3
+      c3.mp3
+
+Tip: keep files as MP3 (or another widely-supported format like
+.wav or .ogg) and reasonably small — this keeps page load fast and
+avoids any file-size limits.
+============================================================= -->
